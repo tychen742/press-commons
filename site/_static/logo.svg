@@ -1,7 +1,1 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 96" role="img" aria-labelledby="title">
-  <title id="title">ThinkPress Commons</title>
-  <rect x="18" y="24" width="56" height="48" rx="10" fill="#07131f"/>
-  <text x="46" y="57" text-anchor="middle" font-family="Georgia, serif" font-size="22" font-weight="700" fill="#37a1f2">TP</text>
-  <text x="88" y="46" font-family="Georgia, serif" font-size="20" fill="#5b6773">ThinkPress</text>
-  <text x="88" y="72" font-family="Georgia, serif" font-size="24" font-weight="700" fill="#07131f">Commons</text>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="280" height="72" viewBox="0 0 280 72" role="img" aria-label="ThinkPress: Commons"><rect x="0.5" y="0.5" width="279" height="71" rx="9" fill="#fff" stroke="#d9dde1"/><g transform="translate(8 8) scale(.875)"><rect width="64" height="64" rx="14" fill="#626977"/><g fill="none" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><path d="M14 19h13l5 5 5-5h13v29H37l-5 4-5-4H14ZM32 24v28"/><path d="M20 29h5m-5 9h5m14-9h5m-5 9h5" stroke-width="3"/></g></g><text x="78" y="30" font-family="Georgia, Times New Roman, serif" font-size="19" font-style="italic" fill="#263e51">ThinkPress</text><text x="78" y="53" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="600" fill="#263e51">Commons</text></svg>
