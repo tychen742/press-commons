@@ -13,6 +13,10 @@ parse:
   myst_enable_extensions: [colon_fence, deflist, linkify]
 sphinx:
   config:
+    html_theme_options:
+      logo:
+        image_light: _static/logo.svg
+        image_dark: _static/logo_dark.svg
     html_baseurl: https://commons.thinkpress.org/
     html_static_path: ["_static"]
     html_css_files:
