@@ -20,7 +20,7 @@ Shared reference pages for ThinkPress books: development tooling, environment se
 
 Commons holds only pages that are the same across books. Most appendices stay in their books (decided 2026-10-03):
 
-- **In commons (planned first pages):** command-line fundamentals, editing tools, introductory REPL concepts, Python installation, virtual environments, Jupyter Notebook, Git basics, model access and API keys.
+- **In commons (planned first pages):** command-line fundamentals, editing tools, introductory REPL concepts, a cross-language programming symbols reference (added 2026-10-26), Python installation, virtual environments, Jupyter Notebook, Git basics, model access and API keys.
 - **Stays in each book that needs it:** language toolchains and language-specific setup (C compiler, .NET, language extensions and REPL commands); advanced Linux/shell administration; course logistics (VMs, servers); cheat sheets; capstones and final projects; any other book-specific appendix.
 
 Books letter all appendices A, B, C, … in `_toc.yml` order, mixing commons pages with their own. Commons pages never mention an appendix letter.

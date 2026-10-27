@@ -6,6 +6,7 @@ parts:
       - file: pages/command_line_basics
       - file: pages/editing_tools
       - file: pages/interactive_language_environments
+      - file: pages/programming_symbols
   - caption: "Python and Jupyter"
     chapters:
       - file: pages/python-installation
