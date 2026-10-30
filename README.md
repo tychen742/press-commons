@@ -9,6 +9,10 @@ Shared reference pages for ThinkPress books: development tooling, environment se
 - `sync.py`: copies the pages a book lists in its `commons.yml` into the book, fills in its values (`{{book_title}}`, `{{book_folder}}`, `{{python_version}}`), copies the figures, and marks each copy as synced. `--site` builds the standalone site.
 - `site/`: the standalone site (Jupyter Book): cover page, table of contents, and config. `site/pages` and `site/figures` are generated.
 
+## Why Copies, Not Links
+
+Books hold real, committed copies of their commons pages (decided 2026-10-29). A table-of-contents entry must point to a file inside the book, symlinks and submodules would show the raw page without the book's `vars`, `intro`, and `slots` and are fragile on Windows and in browser authoring, and committed copies keep each book repo complete for local preview and editing. Generating copies at build time without committing them was considered and deferred: it would need a one-command sync for preview and authoring (see the author-tooling TODO in Press `AGENTS.md`).
+
 ## Rules
 
 - A page here is the single source. Fix it here, then re-sync the books; never edit a synced copy inside a book.
