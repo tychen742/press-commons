@@ -5,6 +5,7 @@ parts:
     chapters:
       - file: pages/command_line_basics
       - file: pages/editing_tools
+      - file: pages/environment_variables
       - file: pages/interactive_language_environments
       - file: pages/programming_symbols
   - caption: "Python and Jupyter"
@@ -16,3 +17,6 @@ parts:
     chapters:
       - file: pages/git-basics
       - file: pages/model-access
+  - caption: "Cheat Sheets"
+    chapters:
+      - file: pages/docker_cheat_sheet

@@ -197,67 +197,39 @@ The plain `python3` command runs the first match on your PATH.
 
 ### Set the Default Version
 
-The default `python` (or `python3`) is the first match found on your PATH environment variable. To change the default, change the order of PATH entries.
+The default `python` (or `python3`) is the first match found on your PATH environment variable. To change the default, change the order of PATH entries. {doc}`Environment Variables and PATH <environment_variables>` shows how to edit PATH on each system; the Python-specific entries are below.
 
 ::::{tab-set}
 :::{tab-item} Windows
-1. In Windows Search, type "environment variables" and open **Edit the system environment variables**. The System Properties window appears.
+In the Path editor, find the two entries for the version you want, for example:
 
-   ```{figure} figures/path-windows-system-properties.png
-   :name: commons-path-windows-system-properties
-   :alt: The Windows System Properties window on the Advanced tab, with the Environment Variables button at the bottom.
-   :width: 400px
+```text
+C:\Users\[user]\AppData\Local\Programs\Python\Python313\Scripts\
+C:\Users\[user]\AppData\Local\Programs\Python\Python313\
+```
 
-   The System Properties window
-   ```
-
-2. Click **Environment Variables**.
-3. Under **User variables for [user]**, select **Path** and click **Edit**.
-4. Find the two entries for the version you want, for example:
-
-   ```text
-   C:\Users\[user]\AppData\Local\Programs\Python\Python313\Scripts\
-   C:\Users\[user]\AppData\Local\Programs\Python\Python313\
-   ```
-
-5. Use **Move Up** to put both entries at the top of the list. Use **New** to add entries for a version that is missing.
-6. Click **OK** in each window, then close and reopen PowerShell. You may need to sign out or restart.
-
-Run `python --version` to confirm the change.
+Use **Move Up** to put both entries at the top of the list. Use **New** to add entries for a version that is missing. Then close and reopen PowerShell and run `python --version` to confirm the change.
 :::
 
 :::{tab-item} macOS and Linux
-1. Open your shell configuration file in an editor such as `nano`:
+Add the folder of your preferred Python to the front of PATH in your shell configuration file. For a python.org install on macOS:
 
-   ```bash
-   nano ~/.zshrc      # zsh, the macOS default
-   nano ~/.bashrc     # bash, the usual Linux default
-   ```
+```bash
+export PATH="/Library/Frameworks/Python.framework/Versions/{{python_version}}/bin:$PATH"
+```
 
-2. Add the folder of your preferred Python to the front of PATH. For a python.org install on macOS:
+For a Homebrew install:
 
-   ```bash
-   export PATH="/Library/Frameworks/Python.framework/Versions/{{python_version}}/bin:$PATH"
-   ```
+```bash
+export PATH="$(brew --prefix python@{{python_version}})/libexec/bin:$PATH"
+```
 
-   For a Homebrew install:
+Alternatively, add an alias:
 
-   ```bash
-   export PATH="$(brew --prefix python@{{python_version}})/libexec/bin:$PATH"
-   ```
+```bash
+alias python='python{{python_version}}'
+```
 
-   Alternatively, add an alias:
-
-   ```bash
-   alias python='python{{python_version}}'
-   ```
-
-3. Save the file, then reload it:
-
-   ```bash
-   source ~/.zshrc    # or: source ~/.bashrc
-   ```
-
-4. Confirm with `python3 --version` and `which python3`.
+Reload the file, then confirm with `python3 --version` and `which python3`.
 :::
 ::::

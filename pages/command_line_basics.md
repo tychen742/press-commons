@@ -52,7 +52,7 @@ A command can include arguments, values describing what it should do. `cd toolin
 
 Press the up arrow to recall earlier commands. Tab completion can help fill in filenames. Copy only the command, excluding the prompt and displayed output. In macOS terminals, paste with Command+V; in Windows Terminal, use Ctrl+Shift+V; many Linux terminals also use Ctrl+Shift+V. Terminal applications can configure these shortcuts differently. Ctrl+C usually interrupts the running program rather than copying text.
 
-If a command is not found, check its spelling, confirm the tool is installed, and open a new terminal after installation. If a file is not found, check your working directory and the path you supplied.
+If a command is not found, check its spelling, confirm the tool is installed, and open a new terminal after installation. If the tool is installed but still not found, its folder may be missing from `PATH`; see {doc}`Environment Variables and PATH <environment_variables>`. If a file is not found, check your working directory and the path you supplied.
 
 ```{rubric} Footnotes
 ```

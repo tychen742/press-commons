@@ -28,5 +28,5 @@ Commands in the guides use `mycourse` as the example project folder. In each boo
 
 <h2>For Authors</h2>
 
-A book includes these guides by listing them in a `commons.yml` file at its root. Each time the book builds, its CI fetches the latest guides, fills in the book's name and project folder, and places them in the book's appendices under a short book-owned introduction. To change a guide, edit it in the [thinkpress-commons repository](https://github.com/tychen742/thinkpress-commons); this site and every book that uses it update on their next build.
+A book includes these guides by listing them in a `commons.yml` file at its root. Each time the book builds, its CI fetches the latest guides, fills in the book's name and project folder, and places them in the book's appendices under a short book-owned introduction. To change a guide, edit it in the [press-commons repository](https://github.com/tychen742/press-commons); this site and every book that uses it update on their next build.
 ````
