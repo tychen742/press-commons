@@ -2,6 +2,14 @@
 
 Shared reference pages for ThinkPress books: development tooling, environment setup, and other appendix material that several books need. This is not a book. Each book copies the pages it needs into its own appendices at build time, so every book stays complete on its own and readers never leave their book.
 
+## Public Source Policy
+
+Confirmed 2026-10-31: keep this GitHub repository public. Book CI, including AIB and AIS, fetches these shared teaching and tooling guides anonymously. Keep secrets, learner records, answer keys, and confidential instructor material out of files and Git history.
+
+The public source repository and the hosted site have separate access policies. `commons.thinkpress.org` keeps its staff access policy and public landing page; students read synced guides inside their books. Public visibility does not select a reuse license.
+
+The public-release audit covered 25 commits, 77 historical file versions, screenshots, and GitHub collaboration content, with no material requiring removal. Anonymous Git access and successful AIB/AIS deployment reruns were verified after the visibility change. Approved book titles are listed in the Press repository's `docs/PLATFORM_DECISIONS.md`; use them in each book's `commons.yml` while preserving book folders and domains.
+
 ## Layout
 
 - `pages/`: canonical pages (Jupyter notebooks or MyST Markdown; `sync.py` handles both, and a book's `commons.yml` file entry keeps the page's extension), written to be book-neutral.
