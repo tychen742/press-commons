@@ -2,6 +2,7 @@
 site/_build/
 site/pages/
 site/figures/
+site/references.bib
 __pycache__/
 .DS_Store
 

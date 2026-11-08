@@ -56,6 +56,13 @@ pages:
 - Put the slots where a book could reasonably differ (examples, extra commands, book-specific notes). Do not slot everything; if most of a page would change for a book, that content belongs in the book's own page.
 - Use `mode: replace` sparingly, for a default that is wrong for the book (for example a Python install step in a C# book). Prefer append so shared text keeps improving everywhere.
 
+## Citing Sources
+
+A page that adapts or quotes a source cites it the way the books do: a footnote at the point of use whose text carries `` {cite}`key` ``, under a closing Footnotes label. Use ```` ```{rubric} Footnotes ``` ```` rather than a `## Footnotes` heading: a heading whose section holds only footnotes starts with a transition, which docutils reports as an error, and ccs builds with `--warningiserror`.
+
+- Add the BibTeX entry to `references.bib` at this repository's root. The site build and the book sync both stop when a page cites a key that is not there.
+- `sync.py` appends each cited entry a book's BibTeX file lacks (`bibfile` in `commons.yml`, default `references.bib`); `--check` reports missing entries. The book's own Bibliography page then lists it.
+- The standalone site has a Bibliography page built from `references.bib`.
 
 ## Scope
 

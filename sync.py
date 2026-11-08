@@ -9,6 +9,7 @@ A book lists the pages it uses in `commons.yml` at its root:
       book_title: Think AI Systems
       book_folder: ais
       python_version: "3.13"
+    bibfile: references.bib                # optional; the book's BibTeX file (default references.bib)
     pages:
       - page: python-installation          # pages/python-installation.md (or .ipynb)
         file: development_setup/python_installation.md   # relative to target_dir; same extension as the page
@@ -26,6 +27,8 @@ Usage:
     python sync.py --site              # write the standalone site into site/
 
 Synced pages carry a marker comment; edit the page here, never the copy.
+A page that cites a source with {cite}`key` needs that entry in commons references.bib;
+the sync appends any cited entry the book's BibTeX file lacks.
 """
 
 from __future__ import annotations
@@ -43,11 +46,14 @@ import yaml
 ROOT = Path(__file__).resolve().parent
 PAGES = ROOT / "pages"
 FIGURES = ROOT / "figures"
+BIB = ROOT / "references.bib"
 MARKER = "<!-- Synced from press-commons/pages/{page}{ext}. Do not edit here: edit the commons page and run sync.py. -->"
 PLACEHOLDER = re.compile(r"\{\{\s*([a-z_]+)\s*\}\}")
 FIGURE_REF = re.compile(r"(?<![\w/.-])figures/([\w.-]+\.(?:png|jpg|jpeg|gif|svg))")
 SLOT = re.compile(r"<!-- slot: ([a-z0-9_]+) -->(.*?)<!-- /slot: \1 -->", re.DOTALL)
 DOC_REF = re.compile(r"\{doc\}`(?:([^`<]*?)\s*<)?([a-z0-9_-]+)>?`")
+CITE = re.compile(r"\{cite(?::[a-z]+)?\}`([^`]+)`")
+BIB_ENTRY = re.compile(r"@\w+\s*\{\s*([^,\s]+)\s*,")
 SITE_VARS = {"book_title": "your ThinkPress book", "book_folder": "mycourse", "python_version": "3.13"}
 
 
@@ -172,6 +178,32 @@ def render(page: str, variables: dict, figure_prefix: str, intro: str | None = N
     return json.dumps(nb, indent=1, ensure_ascii=False) + "\n", figures
 
 
+def bib_entries(path: Path) -> dict[str, str]:
+    """Return the BibTeX entries in `path` by key, each as its full text."""
+    if not path.exists():
+        return {}
+    text = path.read_text()
+    entries = {}
+    for m in BIB_ENTRY.finditer(text):
+        depth, i = 0, text.index("{", m.start())
+        for j in range(i, len(text)):
+            depth += {"{": 1, "}": -1}.get(text[j], 0)
+            if depth == 0:
+                entries[m.group(1)] = text[m.start():j + 1]
+                break
+    return entries
+
+
+def cited_keys(text: str) -> set[str]:
+    return {k.strip() for m in CITE.finditer(text) for k in m.group(1).split(",")}
+
+
+def check_cites(page: str, keys: set[str]) -> None:
+    missing = sorted(keys - set(bib_entries(BIB)))
+    if missing:
+        raise SystemExit(f"{page}: no entry for {', '.join(missing)} in {BIB.name}")
+
+
 def load_slots(entry: dict, book: Path) -> dict:
     """Read a page entry's `slots` from commons.yml: a string appends; a mapping sets mode, text or file."""
     slots = {}
@@ -197,6 +229,8 @@ def sync_book(book: Path, check: bool) -> int:
     fig_dir = book / cfg.get("figures_dir", "figures/commons")
     variables = cfg.get("vars", {})
     outputs = {e["page"]: target / e["file"] for e in cfg["pages"]}
+    bib_file = book / cfg.get("bibfile", "references.bib")
+    cites: set[str] = set()
     stale = 0
     for entry in cfg["pages"]:
         out = outputs[entry["page"]]
@@ -206,6 +240,9 @@ def sync_book(book: Path, check: bool) -> int:
         links = {p: os.path.splitext(os.path.relpath(o, out.parent))[0].replace(os.sep, "/") for p, o in outputs.items()}
         text, figures = render(entry["page"], variables, prefix, entry.get("intro"), links,
                               load_slots(entry, book))
+        keys = cited_keys(text)
+        check_cites(entry["page"], keys)
+        cites |= keys
         current = out.read_text() if out.exists() else None
         old_figures = [n for n in sorted(figures)
                        if not (fig_dir / n).exists() or (fig_dir / n).read_bytes() != (FIGURES / n).read_bytes()]
@@ -222,6 +259,17 @@ def sync_book(book: Path, check: bool) -> int:
             fig_dir.mkdir(parents=True, exist_ok=True)
             shutil.copy2(FIGURES / name, fig_dir / name)
         print(f"synced: {entry['page']} -> {out.relative_to(book)}" + (f" (figures: {', '.join(old_figures)})" if old_figures else ""))
+    missing = sorted(cites - set(bib_entries(bib_file)))
+    if missing:
+        stale += 1
+        if check:
+            print(f"out of date: {bib_file.relative_to(book)} lacks {', '.join(missing)}")
+        else:
+            commons = bib_entries(BIB)
+            current = bib_file.read_text() if bib_file.exists() else ""
+            sep = "" if not current or current.endswith("\n\n") else ("\n" if current.endswith("\n") else "\n\n")
+            bib_file.write_text(current + sep + "\n\n".join(commons[k] for k in missing) + "\n")
+            print(f"cited: added {', '.join(missing)} to {bib_file.relative_to(book)}")
     if not stale:
         print("all commons pages up to date")
     return 1 if (check and stale) else 0
@@ -237,10 +285,12 @@ def build_site() -> int:
     names = sorted(p.stem for p in PAGES.iterdir() if p.suffix in (".md", ".ipynb"))
     for name in names:
         text, figures = render(name, SITE_VARS, "../figures/")
+        check_cites(name, cited_keys(text))
         (pages_out / page_file(name).name).write_text(text)
     if (site / "figures").exists():
         shutil.rmtree(site / "figures")
     shutil.copytree(FIGURES, site / "figures", ignore=shutil.ignore_patterns(".gitkeep"))
+    shutil.copy2(BIB, site / "references.bib")
     print(f"site: {len(names)} pages in {site.relative_to(ROOT)}/pages")
     return 0
 

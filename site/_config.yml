@@ -12,7 +12,13 @@ html:
 parse:
   myst_enable_extensions: [colon_fence, deflist, linkify]
 sphinx:
+  extra_extensions:
+    - sphinxcontrib.bibtex
   config:
+    bibtex_bibfiles:
+      - references.bib
+    bibtex_reference_style: author_year
+    bibtex_default_style: unsrt
     html_theme_options:
       logo:
         image_light: _static/logo.svg
