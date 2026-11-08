@@ -20,3 +20,4 @@ parts:
   - caption: "Cheat Sheets"
     chapters:
       - file: pages/docker_cheat_sheet
+      - file: pages/sql_cheat_sheet
