@@ -198,6 +198,52 @@ def cited_keys(text: str) -> set[str]:
     return {k.strip() for m in CITE.finditer(text) for k in m.group(1).split(",")}
 
 
+def bib_field(entry: str, name: str) -> str:
+    """Return one field of a BibTeX entry as plain text (braces removed)."""
+    m = re.search(rf"\b{name}\s*=\s*", entry)
+    if not m:
+        return ""
+    i, depth, out = m.end(), 0, []
+    for ch in entry[i:]:
+        if ch == "{":
+            depth += 1
+            continue
+        if ch == "}":
+            depth -= 1
+            if depth < 0:
+                break
+            continue
+        if depth == 0 and ch in ",\n":
+            break
+        out.append(ch)
+    return "".join(out).strip()
+
+
+def plain_citation(entry: str) -> str:
+    """Format a BibTeX entry as a short plain-text citation, for books without sphinxcontrib.bibtex."""
+    author, year, title = bib_field(entry, "author"), bib_field(entry, "year"), bib_field(entry, "title")
+    where, url = bib_field(entry, "howpublished"), bib_field(entry, "url")
+    parts = [author, year, f"*{title}*", where, f"<{url}>" if url else ""]
+    return "(" + ", ".join(p for p in parts if p) + ")"
+
+
+def book_uses_bibtex(book: Path, bib_file: Path) -> bool:
+    """True when the book's _config.yml lists `bib_file` in bibtex_bibfiles (top level or sphinx config)."""
+    config = book / "_config.yml"
+    if not config.exists():
+        return False
+    cfg = yaml.safe_load(config.read_text()) or {}
+    files = list(cfg.get("bibtex_bibfiles") or []) + list(
+        ((cfg.get("sphinx") or {}).get("config") or {}).get("bibtex_bibfiles") or [])
+    return any((book / f).resolve() == bib_file.resolve() for f in files)
+
+
+def inline_cites(text: str) -> str:
+    """Replace each {cite} role with a plain-text citation from commons references.bib."""
+    entries = bib_entries(BIB)
+    return CITE.sub(lambda m: "; ".join(plain_citation(entries[k.strip()]) for k in m.group(1).split(",")), text)
+
+
 def check_cites(page: str, keys: set[str]) -> None:
     missing = sorted(keys - set(bib_entries(BIB)))
     if missing:
@@ -230,6 +276,7 @@ def sync_book(book: Path, check: bool) -> int:
     variables = cfg.get("vars", {})
     outputs = {e["page"]: target / e["file"] for e in cfg["pages"]}
     bib_file = book / cfg.get("bibfile", "references.bib")
+    use_bibtex = book_uses_bibtex(book, bib_file)
     cites: set[str] = set()
     stale = 0
     for entry in cfg["pages"]:
@@ -242,7 +289,11 @@ def sync_book(book: Path, check: bool) -> int:
                               load_slots(entry, book))
         keys = cited_keys(text)
         check_cites(entry["page"], keys)
-        cites |= keys
+        if use_bibtex:
+            cites |= keys
+        elif keys:
+            # The book has no bibliography: write the citation out in the footnote instead.
+            text = inline_cites(text)
         current = out.read_text() if out.exists() else None
         old_figures = [n for n in sorted(figures)
                        if not (fig_dir / n).exists() or (fig_dir / n).read_bytes() != (FIGURES / n).read_bytes()]
