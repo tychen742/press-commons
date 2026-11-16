@@ -12,6 +12,8 @@ html:
 parse:
   myst_enable_extensions: [colon_fence, deflist, linkify]
 sphinx:
+  local_extensions:
+    inline_js_dedupe: _ext
   extra_extensions:
     - sphinxcontrib.bibtex
   config:
@@ -19,6 +21,9 @@ sphinx:
       - references.bib
     bibtex_reference_style: author_year
     bibtex_default_style: unsrt
+    # Without default_mode, a first visit (no saved mode) logs "Got invalid theme mode".
+    html_context:
+      default_mode: auto
     html_theme_options:
       logo:
         image_light: _static/logo.svg
