@@ -11,8 +11,8 @@ A book lists the pages it uses in `commons.yml` at its root:
       python_version: "3.13"
     bibfile: references.bib                # optional; the book's BibTeX file (default references.bib)
     pages:
-      - page: python-installation          # pages/python-installation.md (or .ipynb)
-        file: development_setup/python_installation.md   # relative to target_dir; same extension as the page
+      - page: python-installation          # pages/python-installation.ipynb
+        file: development_setup/python_installation.ipynb   # relative to target_dir; same extension as the page
         intro: |                           # optional book-specific note
           Labs run in the browser; install Python only to work locally.
         slots:                             # optional customization of marked places in the page
@@ -26,7 +26,9 @@ Usage:
     python sync.py BOOK_DIR --check    # report pages that are out of date
     python sync.py --site              # write the standalone site into site/
 
-Synced pages carry a marker comment; edit the page here, never the copy.
+Synced pages carry a marker comment; edit the page here, never the copy. A synced notebook
+also records `thinkpress.generated_by` in its metadata, so Press browser authoring refuses to
+save it (Press docs/BOOK_AUTHORING.md, Generated pages).
 A page that cites a source with {cite}`key` needs that entry in commons references.bib;
 the sync appends any cited entry the book's BibTeX file lacks.
 """
@@ -175,6 +177,8 @@ def render(page: str, variables: dict, figure_prefix: str, intro: str | None = N
     if not marked_h1:
         raise SystemExit(f"{page}: page has no H1")
     check_slots()
+    nb.setdefault("metadata", {})["thinkpress"] = {"generated_by": "press-commons/sync.py",
+                                                   "source": f"press-commons/pages/{path.name}"}
     return json.dumps(nb, indent=1, ensure_ascii=False) + "\n", figures
 
 

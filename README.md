@@ -12,7 +12,7 @@ The public-release audit covered 25 commits, 77 historical file versions, screen
 
 ## Layout
 
-- `pages/`: canonical pages (Jupyter notebooks or MyST Markdown; `sync.py` handles both, and a book's `commons.yml` file entry keeps the page's extension), written to be book-neutral.
+- `pages/`: canonical pages, written to be book-neutral. Every page is a Jupyter notebook (rule, 2026-11-15), so the books' copies can be read by Press browser authoring like every other page; a book's `commons.yml` file entry ends in `.ipynb`. `sync.py` still reads a MyST Markdown page, but do not add one.
 - `figures/`: images the pages use.
 - `sync.py`: copies the pages a book lists in its `commons.yml` into the book, fills in its values (`{{book_title}}`, `{{book_folder}}`, `{{python_version}}`), copies the figures, and marks each copy as synced. `--site` builds the standalone site.
 - `site/`: the standalone site (Jupyter Book): cover page, table of contents, and config. `site/pages` and `site/figures` are generated.
@@ -23,7 +23,7 @@ Books hold real, committed copies of their commons pages (decided 2026-10-29). A
 
 ## Rules
 
-- A page here is the single source. Fix it here, then re-sync the books; never edit a synced copy inside a book.
+- A page here is the single source. Fix it here, then re-sync the books; never edit a synced copy inside a book. Each synced notebook records `thinkpress.generated_by` in its metadata, and Press browser authoring refuses to save it.
 - Keep pages book-neutral. Language-specific commands, course rules, and chapter cross-references belong in the book's wrapper, not here.
 - Each book declares the pages it uses in `commons.yml` at its root. A short book-owned wrapper page (for example "Development Setup") introduces them, and the synced pages sit under it in the book's `_toc.yml`.
 - Model names, prices, and provider details stay in each book's model-access appendix.
