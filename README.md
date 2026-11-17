@@ -70,6 +70,7 @@ Commons holds only pages that are the same across books. Most appendices stay in
 
 - **In commons (planned first pages):** command-line fundamentals, editing tools, introductory REPL concepts, a cross-language programming symbols reference (added 2026-10-26), Python installation, virtual environments, Jupyter Notebook, Git basics, model access and API keys, tooling cheat sheets.
 - **Tooling cheat sheets (decided 2026-10-29):** short command references for tools (for example Docker) live in commons, with per-book `slots` for what differs.
+- **AI concepts cheat sheet (added 2026-11-17):** `ai_concepts_cheat_sheet` defines the shared AI vocabulary (LLM, RAG, tool calling, MCP, skill, memory, agent) at definition level, with one agent loop figure. It names no models, products, or prices; depth stays in each book's chapters, and a book points to them through the `book_notes` slot.
 - **Stays in each book that needs it:** language toolchains and language-specific setup (C compiler, .NET, language extensions and REPL commands); advanced Linux/shell administration; course logistics (VMs, servers); capstones and final projects; any other book-specific appendix.
 
 Books letter all appendices A, B, C, … in `_toc.yml` order, mixing commons pages with their own. Commons pages never mention an appendix letter.

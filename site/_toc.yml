@@ -19,6 +19,7 @@ parts:
       - file: pages/model-access
   - caption: "Cheat Sheets"
     chapters:
+      - file: pages/ai_concepts_cheat_sheet
       - file: pages/docker_cheat_sheet
       - file: pages/sql_cheat_sheet
   - caption: "Bibliography"
