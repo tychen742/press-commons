@@ -68,7 +68,7 @@
 
 <text class="edge" x="200" y="140">request</text>
 <text class="edge" x="200" y="187">answer</text>
-<text class="edge" x="368" y="215">load context</text>
+<text class="edge" x="368" y="226">load context</text>
 <text class="edge" x="254" y="116">prompt</text>
 <text class="edge" x="416" y="116">tool call or answer</text>
 <text class="edge" x="466" y="140">run tool</text>
@@ -76,7 +76,7 @@
 
 <!-- Numbered steps -->
 <g class="badge"><circle cx="150" cy="147" r="9"/><text x="150" y="151">1</text></g>
-<g class="badge"><circle cx="320" cy="211" r="9"/><text x="320" y="215">2</text></g>
+<g class="badge"><circle cx="320" cy="222" r="9"/><text x="320" y="226">2</text></g>
 <g class="badge"><circle cx="290" cy="112" r="9"/><text x="290" y="116">3</text></g>
 <g class="badge"><circle cx="350" cy="112" r="9"/><text x="350" y="116">4</text></g>
 <g class="badge"><circle cx="418" cy="147" r="9"/><text x="418" y="151">5</text></g>
