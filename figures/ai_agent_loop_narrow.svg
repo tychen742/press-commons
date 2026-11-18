@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="360" height="602" viewBox="0 0 360 602" role="img" aria-labelledby="t d">
+<title id="t">The agent loop: how the parts of an AI system fit together (portrait layout)</title>
+<desc id="d">Four zones stacked from top to bottom: User, Agent, Context, and Tools and Data. 1, the user sends a request to the agent program. 2, the agent program loads context: instructions, skills, and memory. 3, the agent program sends the prompt to the model. 4, the model replies with a tool call or an answer. 5, the agent program runs the tool: a function, an MCP server, or retrieval. 6, the result returns to the agent program, and steps 3 to 6 repeat. 7, the agent program returns the answer to the user. Dashes move along each arrow in the direction the data travels.</desc>
+<style>
+  .flow { fill: none; stroke: #386a87; stroke-width: 1.5; stroke-dasharray: 6 5; animation: flow 0.9s linear infinite; }
+  .reply { stroke: #536170; }
+  @keyframes flow { to { stroke-dashoffset: -11; } }
+  @media (prefers-reduced-motion: reduce) { .flow { animation: none; } }
+  text { font-family: Helvetica, Arial, sans-serif; fill: #24334a; }
+  .zone-label { font-size: 11px; fill: #536170; font-weight: bold; letter-spacing: 0.04em; }
+  .node { font-size: 13px; text-anchor: middle; }
+  .sub { font-size: 11px; fill: #536170; text-anchor: middle; }
+  .edge { font-size: 11px; fill: #536170; }
+  .end { text-anchor: end; }
+  .mid { text-anchor: middle; }
+  .badge circle { fill: #a67c00; }
+  .badge text { font-size: 11px; font-weight: bold; fill: #ffffff; text-anchor: middle; }
+</style>
+<defs>
+  <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#386a87"/></marker>
+  <marker id="r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#536170"/></marker>
+</defs>
+<rect width="360" height="602" rx="6" fill="#ffffff"/>
+
+<!-- Zones (group role) -->
+<g fill="#f6f8fa" stroke="#9aa9b8" stroke-width="1">
+  <rect x="10" y="10" width="340" height="68" rx="8"/>
+  <rect x="10" y="118" width="340" height="178" rx="8"/>
+  <rect x="10" y="316" width="286" height="76" rx="8"/>
+  <rect x="10" y="412" width="340" height="180" rx="8"/>
+</g>
+<text class="zone-label" x="22" y="28">USER</text>
+<text class="zone-label" x="22" y="136">AGENT</text>
+<text class="zone-label" x="22" y="334">CONTEXT</text>
+<text class="zone-label" x="22" y="430">TOOLS AND DATA</text>
+
+<!-- Nodes (default role; the model in the highlight role) -->
+<g stroke-width="1.2">
+  <rect x="120" y="24" width="120" height="44" rx="6" fill="#eef3f7" stroke="#386a87"/>
+  <rect x="110" y="140" width="140" height="50" rx="6" fill="#eef3f7" stroke="#386a87"/>
+  <rect x="110" y="232" width="140" height="50" rx="6" fill="#fdf3d8" stroke="#a67c00"/>
+  <rect x="22" y="346" width="88" height="34" rx="6" fill="#eef3f7" stroke="#386a87"/>
+  <rect x="118" y="346" width="80" height="34" rx="6" fill="#eef3f7" stroke="#386a87"/>
+  <rect x="206" y="346" width="80" height="34" rx="6" fill="#eef3f7" stroke="#386a87"/>
+  <rect x="60" y="440" width="240" height="40" rx="6" fill="#eef3f7" stroke="#386a87"/>
+  <rect x="60" y="488" width="240" height="40" rx="6" fill="#eef3f7" stroke="#386a87"/>
+  <rect x="60" y="536" width="240" height="40" rx="6" fill="#eef3f7" stroke="#386a87"/>
+</g>
+<text class="node" x="180" y="43">User</text><text class="sub" x="180" y="59">person or app</text>
+<text class="node" x="180" y="162">Agent program</text><text class="sub" x="180" y="178">runs the loop</text>
+<text class="node" x="180" y="254">Model</text><text class="sub" x="180" y="270">LLM</text>
+<text class="node" x="66" y="368">Instructions</text>
+<text class="node" x="158" y="368">Skills</text>
+<text class="node" x="246" y="368">Memory</text>
+<text class="node" x="180" y="457">Functions</text><text class="sub" x="180" y="471">code and APIs</text>
+<text class="node" x="180" y="505">MCP servers</text><text class="sub" x="180" y="519">apps, files, databases</text>
+<text class="node" x="180" y="553">Retrieval</text><text class="sub" x="180" y="567">search your documents</text>
+
+<!-- Animated connectors: path direction is the direction of travel -->
+<path class="flow" d="M160 68V138" marker-end="url(#a)"/>
+<path class="flow reply" d="M200 140V70" marker-end="url(#r)"/>
+<path class="flow" d="M30 316V165H108" marker-end="url(#a)"/>
+<path class="flow" d="M210 190V230" marker-end="url(#a)"/>
+<path class="flow reply" d="M150 232V192" marker-end="url(#r)"/>
+<path class="flow" d="M250 158H312V410" marker-end="url(#a)"/>
+<path class="flow reply" d="M334 412V176H252" marker-end="url(#r)"/>
+
+<text class="edge end" x="146" y="102">request</text>
+<text class="edge" x="214" y="102">answer</text>
+<text class="edge" x="44" y="310">load context</text>
+<text class="edge" x="224" y="215">prompt</text>
+<text class="edge end" x="136" y="215">tool call or answer</text>
+<text class="edge mid" x="281" y="151">run tool</text>
+<text class="edge mid" x="290" y="191">result</text>
+
+<!-- Numbered steps -->
+<g class="badge"><circle cx="160" cy="98" r="9"/><text x="160" y="102">1</text></g>
+<g class="badge"><circle cx="30" cy="306" r="9"/><text x="30" y="310">2</text></g>
+<g class="badge"><circle cx="210" cy="211" r="9"/><text x="210" y="215">3</text></g>
+<g class="badge"><circle cx="150" cy="211" r="9"/><text x="150" y="215">4</text></g>
+<g class="badge"><circle cx="312" cy="340" r="9"/><text x="312" y="344">5</text></g>
+<g class="badge"><circle cx="334" cy="368" r="9"/><text x="334" y="372">6</text></g>
+<g class="badge"><circle cx="200" cy="98" r="9"/><text x="200" y="102">7</text></g>
+</svg>
